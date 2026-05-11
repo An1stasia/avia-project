@@ -1,0 +1,41 @@
+<form action="#" th:action="@{/passenger/save}" th:object="${pax}" method="post">
+  <table>
+<!--    <tr>-->
+<!--      <td class="text">ID:</td>-->
+<!--      <td><input type="text" th:field="*{pax_id}" readonly="readonly"></td>-->
+<!--    </tr>-->
+    <tr>
+      <td class="text">Фамилия:</td>
+      <td><input type="text" th:field="*{last_nm}"></td>
+    </tr>
+    <tr>
+      <td class="text">Имя:</td>
+      <td><input type="text" th:field="*{fst_nm}"></td>
+    </tr>
+    <tr>
+      <td class="text">Отчество:</td>
+      <td><input type="text" th:field="*{mid_nm}"></td>
+    </tr>
+    <tr>
+      <td class="text">Дата рождения:</td>
+      <td><input type="date" placeholder="YYYY-MM-DD" th:field="*{birth_date}"></td>
+    </tr>
+    <tr>
+      <td class="text">Телефон:</td>
+      <td><input type="tel" th:field="*{phone}" placeholder="+7 (___) ___-__-__"></td>
+    </tr>
+    <tr>
+      <td class="text">Почта:</td>
+      <td><input type="email" placeholder="" th:field="*{email}"></td>
+    </tr>
+    <tr>
+      <td class="text">Паспорт:</td>
+      <td><input type="text" th:field="*{passport}" placeholder="1234567890"></td>
+    </tr>
+  </table>
+  <p></p>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+    <button type="submit" class="btn btn-primary" data-tooggle="button" aria-pressed="false" autocomplete="off">Сохранить</button>
+  </div>
+</form>

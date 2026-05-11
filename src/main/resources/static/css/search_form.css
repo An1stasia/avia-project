@@ -1,0 +1,170 @@
+.container {
+    width: 80%;               /* ширина 80% страницы */
+    max-width: 1100px;        /* ограничение для очень широких экранов */
+    margin: 50px auto;
+    padding: 20px;
+    background: white;        /* белый фон */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+form {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;    /* выравниваем по нижнему краю */
+    gap: 10px;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* группа с кнопкой не растягивается */
+.form-group.button-group {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;    /* кнопка прилипает к низу */
+}
+
+select, input[type="date"], input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 42px;             /* одинаковая высота для всех полей */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    white-space: nowrap;
+    height: 42px;             /* высота равна полям */
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+/* ---------- Стили только для формы входа ---------- */
+.login-block {
+    /* сам контейнер – можно задать отступы, фон и т.п. */
+    margin-top: 30px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    max-width: 400px;        /* чтобы не растягивалась на всю ширину */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.login-block form {
+    /* отменяем flex-строку, делаем снова блочное расположение */
+    display: block;
+    flex-wrap: initial;
+    align-items: initial;
+    gap: normal;
+}
+
+.login-block h5 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.login-block table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.login-block table td {
+    padding: 6px 4px;
+    vertical-align: middle;
+}
+
+.login-block label {
+    /* восстанавливаем нормальный вид label */
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #334155;
+}
+
+.login-block input[type="text"],
+.login-block input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    height: auto;            /* отменяем фиксированную высоту */
+    box-sizing: border-box;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.login-block input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    background: #fff;
+    outline: none;
+}
+
+.login-block button {
+    width: 100%;
+    padding: 11px;
+    height: auto;
+    background-color: #1e293b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+    white-space: normal;
+}
+
+.login-block button:hover {
+    background-color: #0f172a;
+}
+
+.login-block a {
+    display: inline-block;
+    font-size: 14px;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-block a:hover {
+    text-decoration: underline;
+}
+
+#dialog3 {
+    width: fit-content;      /* или конкретная ширина, например 300px */
+    margin: 0 auto;
+}
+
+.carousel-item img {
+    width: 120%;
+    height: 500px;           /* фиксируем высоту */
+    object-fit: cover;       /* картинка заполнит блок без искажений */
+    border-radius: 2px;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Проверка выбранного тарифа</title>
+  <!-- Bootstrap или свои стили -->
+</head>
+<body>
+<h2>Детали выбранного рейса и тарифа</h2>
+
+<table>
+  <tr>
+    <td><strong>Номер рейса:</strong></td>
+    <td th:text="${flight.flt_nbr}"></td>
+  </tr>
+  <tr>
+    <td><strong>Дата рейса:</strong></td>
+    <td th:text="${flight.flt_date}"></td>
+  </tr>
+  <tr>
+    <td><strong>Класс:</strong></td>
+    <td th:text="${cost.cls}"></td>
+  </tr>
+  <tr>
+    <td><strong>Стоимость:</strong></td>
+    <td th:text="${cost.cost} + ' ₽'"></td>
+  </tr>
+</table>
+
+<!--<div th:unless="${passenger != null}">-->
+<!--  <p style="color: red;">⚠️ Вы не заполнили данные пассажира.-->
+<!--    <a th:href="@{/personal_account}">Заполнить в личном кабинете</a>-->
+<!--  </p>-->
+<!--</div>-->
+
+<!-- Показываем кнопку, только если все поля пассажира заполнены -->
+<form th:action="@{/coupon/create}" method="post" style="display: inline;">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+  <button type="submit" class="btn btn-primary">Перейти к оформлению купона</button>
+</form>
+
+<!--&lt;!&ndash; Если пассажир не создан вообще, или создан, но не все поля заполнены &ndash;&gt;-->
+<!--<div th:unless="${passengerComplete}">-->
+<!--  <p style="color: red;">-->
+<!--    ⚠️ Для продолжения необходимо заполнить все обязательные поля пассажира.-->
+<!--    <a th:href="@{/personal_account}">Перейти в личный кабинет</a>-->
+<!--  </p>-->
+<!--</div>-->
+<button onclick="history.back()" class="btn btn-secondary">Вернуться к поиску</button>
+</body>
+</html>
+
+<!-- Блок пассажира -->
+<!--<div th:if="${passenger != null}">-->
+<!--  <h3>Данные пассажира</h3>-->
+<!--  <table>-->
+<!--    <tr>-->
+<!--      <td><strong>Фамилия:</strong></td>-->
+<!--      <td th:text="${passenger.last_nm}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Имя:</strong></td>-->
+<!--      <td th:text="${passenger.fst_nm}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Отчество:</strong></td>-->
+<!--      <td th:text="${passenger.mid_nm}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Дата рождения:</strong></td>-->
+<!--      <td th:text="${#dates.format(passenger.birth_date, 'dd.MM.yyyy')}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Паспорт:</strong></td>-->
+<!--      <td th:text="${passenger.passport}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Телефон:</strong></td>-->
+<!--      <td th:text="${passenger.phone}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <td><strong>Email:</strong></td>-->
+<!--      <td th:text="${passenger.email}"></td>-->
+<!--    </tr>-->
+<!--  </table>-->
+<!--</div>-->

@@ -1,0 +1,37 @@
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Система работы с перевозками грузов | Вход</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head><body>
+<div class="bg-image"
+     style="background-image: url('https://storage.kun.uz/source/10/6d3zzVANjbQYm5uhb1JydSDfNkHGEYH7.jpg'); height: 100vh; width: 100%; background-size: cover; background-position: center; overflow: auto">
+  <table id="1" class="table table-striped table-hover" style="background: rgba(0,0,0,0.7)">
+    <thead>
+    <tr>
+      <th scope="col" class="text-white">ID</th>
+      <th scope="col" class="text-white">Имя</th>
+      <th scope="col" class="text-white">Роль</th>
+      <th scope="col" class="text-white">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user:${listUser}">
+      <th scope="row" class="text-white" th:text="${user.user_id}">ID груза отстутсвует</th>
+      <th scope="row" class="text-white" th:text="${user.username}">Название груза отсутствует</th>
+      <th scope="row" class="text-white" th:text="${user.role}">Содержимое груза отсутствует</th>
+      <td>
+        <a th:href="@{'/basa/edit/'+${user.user_id}}"><button type="button" class="btn btn-info">Редактировать</button></a>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+  <!--    <a href="/blog_admin">-->
+  <!--        <button type="button" class="btn btn-primary" data-togge="button" aria-pressed="false" autocomplete="off">-->
+  <!--            Назад-->
+  <!--        </button>-->
+  <!--    </a>-->
+</div></body>
+</html>

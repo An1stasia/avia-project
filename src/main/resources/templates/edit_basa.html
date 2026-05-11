@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Система работы с перевозкой грузов | Редактирование поста</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+    footer {
+      background: linear-gradient(135deg, #696969 0%, rgba(74, 144, 226, 0) 100%); /* Градиентный фон */
+      padding: 40px 0; /* Увеличено верхнее и нижнее поле */
+      color: #fff; /* Белый цвет текста */
+      text-align: center; /* Выравнивание текста по центру */
+    }
+
+    footer .container {
+      max-width: 800px; /* Ширина контейнера */
+      margin: 0 auto; /* Центрирование контейнера */
+      padding: 0 20px; /* Добавлено боковое отсоединение */
+    }
+
+    footer h3 {
+      margin-bottom: 15px; /* Пространство между заголовками и контентом */
+      font-size: 1.3em; /* Увеличен размер шрифта */
+      text-transform: uppercase; /* Заглавные буквы */
+    }
+
+    footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    footer li {
+      margin-bottom: 10px;
+    }
+
+    footer a {
+      color: #ffffff; /* Белый цвет для ссылок */
+      text-decoration: none;
+      transition: color 0.3s; /* Плавный переход цвета */
+      font-weight: 500; /* Полужирный шрифт для ссылок */
+    }
+
+    footer a:hover {
+      color: #ffeb3b; /* Цвет при наведении */
+      text-decoration: underline;
+    }
+
+    footer .social-icons {
+      margin: 20px 0; /* Отступ для иконок социальных сетей */
+    }
+
+    footer .social-icons a {
+      margin: 0 10px; /* Отступ между иконками */
+      font-size: 1.5em; /* Размер иконок */
+      color: #fff; /* Цвет иконок */
+      transition: color 0.3s; /* Плавный переход цвета для иконок */
+    }
+
+    footer .social-icons a:hover {
+      color: #ffeb3b; /* Цвет иконок при наведении */
+    }
+
+    footer .copyright {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #f2f2f2; /* Более светлый цвет для копирайта */
+    }
+
+    /* Responsive adjustments (optional): */
+    @media (max-width: 768px) {
+      footer .row {
+        flex-direction: column; /* Выровнять колонки по вертикали на меньших экранах */
+      }
+
+      footer .col-md-4 {
+        margin-bottom: 20px; /* Интервал между колонками */
+      }
+    }
+  </style>
+</head>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Главная</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Переключатель навигации">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarSupportedContent" style>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Автоблог</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/blog">Главная страница</a></li>
+              <li><a class="dropdown-item" href="/blog_admin" sec:authorize="hasRole('ADMIN')">Административная панель</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/google-charts">Гистограмма</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li>
+            <a class="nav-link" th:text="${username}"></a>
+          </li>
+          <li sec:authorize="isAnonymous()">
+            <a th:hx-get="@{'/login'}" hx-target="#dialog3" class="btn nav-link custom-button">Войти</a>
+            <!-- Модальное окно -->
+          </li>
+          <li class="nav-item" th:if="${#authentication != null and #authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">  <a href="/logout" class="btn btn-danger nav-link custom-button">Выйти</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/basa" sec:authorize="hasRole('ADMIN')">Управление базой</a>
+          </li>
+          <div class="modal fade" id="modallog" tabindex="-1" aria-labelledby="exampleModalLabellog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabellog">Вход</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="dialog3">
+                  <!-- Форма будет загружена сюда -->
+                </div>
+                <!--                            <div class="modal-footer">-->
+                <!--                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>-->
+                <!--                            </div>-->
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+      <div id="google_translate_element"></div>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'ru'}, 'google_translate_element');
+        }
+      </script>
+      <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </div>
+    </div>
+  </nav>
+</header>
+<body>
+<div class="bg-image"
+     style="background-image: url('https://storage.kun.uz/source/10/6d3zzVANjbQYm5uhb1JydSDfNkHGEYH7.jpg'); height: 100vh; width: 100%; background-size: cover; background-position: center; overflow:
+auto">
+  <blockquote class="blockquote text-center" style="color: aliceblue"><h1>Редактировать пост</h1></blockquote>
+  <div class="row">
+    <div class="col-md-8 offset-md-4">
+      <form action="#" th:action="@{/basa/save}" th:object="${user}" method="post">
+        <table>
+          <tr>
+            <td class="text-white">ID:</td>
+            <td><input type="text" th:field="*{user_id}" readonly="readonly"></td>
+          </tr>
+          <tr>
+            <td class="text-white">Имя:</td>
+            <td><input type="text" th:field="*{username}" readonly="readonly"></td>
+          </tr>
+          <tr>
+            <td class="text-white">Пароль:</td>
+            <td><input type="text" th:field="*{password}" readonly="readonly"></td>
+          </tr>
+          <tr>
+            <td class="text-white">Роль:</td>
+            <td>
+              <select th:field="*{role}" required>
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button type="submit" class="btn btn-primary" data-tooggle="button" aria-pressed="false" autocomplete="off">Сохранить</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>О проекте</h3>
+          <p>Это информационно-справочная система грузов. Разработананная студентами...</p>
+          <p>ООО "ТГК"</p>
+        </div>
+        <div class="col-md-4">
+          <h3>Полезные ссылки</h3>
+          <ul>
+            <li><a href="/blog">Новости</a></li>
+            <li><a href="/google-charts">Статистика</a></li>
+
+          </ul>
+        </div>
+        <div class="col-md-4">
+
+          <h3>Свяжитесь с нами</h3>
+          <a href="https://web.telegram.org/k/#@gruzzIni" target="_blank">
+            <i class="fab fa-telegram" style="font-size: 32px;"></i>
+          </a>
+          <a href="https://chat.whatsapp.com/BAlSyr5xkAvDIVVgdemFWe" target="_blank">
+            <i class="fab fa-whatsapp" style="font-size: 32px;"></i>
+          </a>
+          <a href="https://vk.com/club228694784" target="_blank">
+            <i class="fab fa-vk" style="font-size: 32px;"></i>
+          </a>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2024 ООО "ТГК". Все права защищены.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="/dialog1.js"></script>
+<script src="/dialog2.js"></script>
+<script src="/dialog3.js"></script>
+</html>
