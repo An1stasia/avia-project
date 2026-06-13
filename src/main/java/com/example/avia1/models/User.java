@@ -3,9 +3,11 @@ package com.example.avia1.models;
 import jakarta.persistence.*;
 import lombok.Getter;import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Entity
-@Table(name = "User") // Укажите имя таблицы, если необходимо
+@Table(name = "User")
 
 public class User {
     @Setter
@@ -21,11 +23,10 @@ public class User {
     @Getter
     private Role role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="pax_id")
     private Pax passenger;
 
-    // Конструктор по умолчанию
     public User() {    }
 
     // Геттер для ID
@@ -52,4 +53,7 @@ public class User {
     public String toString() {
         return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<Wishlist> wishlistItems;
 }

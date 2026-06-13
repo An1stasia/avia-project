@@ -1,0 +1,182 @@
+body {
+    background-color: #d2dff9;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 40px 24px;
+    background-color: #d2dff9;
+    min-height: 100vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}
+.sub-header {
+    color: #2c3e66;
+    font-size: 1.1rem;
+}
+
+.confirm-card {
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 28px;
+}
+
+.details-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+.flight-details {
+    flex: 2;
+    min-width: 260px;
+}
+.fare-details {
+    flex: 1;
+    min-width: 220px;
+    background: #f8fafc;
+    border-radius: 28px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid #e2edff;
+}
+
+.info-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed #e9eef3;
+    padding-bottom: 0.6rem;
+}
+.info-label {
+    font-weight: 600;
+    color: #1e466e;
+    width: 140px;
+    flex-shrink: 0;
+}
+.info-value {
+    color: #1f2a44;
+    font-weight: 500;
+}
+.utc-time {
+    color: #6c757d;
+    font-size: 0.8rem;
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+.airport-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+.airport-item {
+    background: #f1f5f9;
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    flex: 1;
+}
+.airport-iata {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0b2b4f;
+}
+.airport-name {
+    font-size: 0.8rem;
+    color: #4a627a;
+}
+
+.fare-class {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.fare-price {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0d6efd;
+    margin: 0.8rem 0;
+}
+.fare-price small {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.btn-primary-custom {
+    background: #0d6efd;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.btn-primary-custom:hover {
+    background: #0b5ed7;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+.btn-secondary-custom {
+    background: #e2e8f0;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: #1f2a44;
+    transition: 0.2s;
+}
+.btn-secondary-custom:hover {
+    background: #cbd5e1;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+.warning-message {
+    background: #fff3cd;
+    border-left: 5px solid #ffc107;
+    padding: 1rem;
+    border-radius: 20px;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px;
+    }
+    .confirm-card {
+        padding: 1.2rem;
+    }
+    .info-label {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+    .fare-price {
+        font-size: 1.8rem;
+    }
+}

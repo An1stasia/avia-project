@@ -1,24 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Бронирование оформлено</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/tkt_success.css}" />
 </head>
 <body>
-<h2>Бронирование оформлено!</h2>
-<div th:if="${tkt != null}">
-  <p>Номер бронирования: <span th:text="${tkt.tkt_id}"></span></p>
-  <p>Пассажир: <span th:text="${tkt.pax_tkt.last_nm} + ' ' + ${tkt.pax_tkt.fst_nm}"></span></p>
-  <h3>Купоны:</h3>
-  <ul>
-    <li th:each="cpn : ${tkt.cpns}">
-      Рейс <span th:text="${cpn.flt_cpn.flt_nbr}"></span>
-      (<span th:text="${cpn.flt_cpn.deptr_dttm_lcl}"></span>),
-      класс <span th:text="${cpn.cost_cpn.cls}"></span>,
-      <span th:text="${cpn.cost_cpn.cost}"></span> ₽
-    </li>
-  </ul>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">✈ Поиск авиабилетов</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Переключатель навигации">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li>
+            <a class="nav-link" th:href="@{/personal_account}" th:text="${username}" sec:authorize="hasRole('USER')"></a>
+            <span class="nav-link" th:text="${username}" sec:authorize="isAuthenticated() AND !hasRole('USER')"></span>
+          </li>
+          <li sec:authorize="isAnonymous()">
+            <a th:hx-get="@{'/login'}" hx-target="#dialog3" class="btn nav-link custom-button">Войти</a>
+          </li>
+          <li class="nav-item" th:if="${#authentication != null and #authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">
+            <a href="/logout" class="btn btn-danger nav-link custom-button">Выйти</a>
+          </li>
+          <li>
+            <a class="nav-link custom-button" href="/basa" sec:authorize="hasRole('ADMIN')">Управление базой</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="dashboard-container">
+  <div class="page-header">
+    <h1 class="page-title">Бронирование оформлено!</h1>
+    <div class="success-badge">Ваш билет успешно забронирован</div>
+  </div>
+
+  <div th:if="${tkt != null}">
+
+    <div class="passenger-card">
+      <div class="section-title">Данные пассажира</div>
+      <div class="passenger-details">
+        <div class="passenger-item">
+          <div class="passenger-label">ФИО</div>
+          <div class="passenger-value">
+            <span th:text="${tkt.pax_tkt.last_nm} + ' ' + ${tkt.pax_tkt.fst_nm} + (${tkt.pax_tkt.mid_nm != null && !tkt.pax_tkt.mid_nm.isEmpty()} ? ' ' + ${tkt.pax_tkt.mid_nm} : '')"></span>
+          </div>
+        </div>
+        <div class="passenger-item">
+          <div class="passenger-label">Дата рождения</div>
+          <div class="passenger-value" th:text="${#dates.format(tkt.pax_tkt.birth_date, 'dd.MM.yyyy')}"></div>
+        </div>
+        <div class="passenger-item">
+          <div class="passenger-label">Паспорт</div>
+          <div class="passenger-value" th:text="${tkt.pax_tkt.passport}"></div>
+        </div>
+        <div class="passenger-item">
+          <div class="passenger-label">Email</div>
+          <div class="passenger-value" th:text="${tkt.pax_tkt.email}"></div>
+        </div>
+        <div class="passenger-item">
+          <div class="passenger-label">Телефон</div>
+          <div class="passenger-value" th:text="${tkt.pax_tkt.phone}"></div>
+        </div>
+      </div>
+      <div class="mt-3 text-muted small">
+        Номер бронирования: <span class="booking-id" th:text="${tkt.tkt_id}"></span>
+      </div>
+    </div>
+
+
+    <div class="section-title">Информация о перелётах</div>
+    <div th:each="cpn, iterStat : ${tkt.cpns}">
+      <div class="coupon-card-item">
+        <div class="route-header">
+          <span class="flight-number-badge" th:text="'Рейс ' + ${cpn.flt_cpn.flt_nbr}"></span>
+          <span class="city-pair">
+                        <span th:text="${cpn.flt_cpn.deptrAirports.city_rus}"></span>
+                        <span>—</span>
+                        <span th:text="${cpn.flt_cpn.arvlAirports.city_rus}"></span>
+                    </span>
+        </div>
+        <div class="airport-sub">
+          <span th:text="${cpn.flt_cpn.deptrAirports.aipName}"></span>
+          →
+          <span th:text="${cpn.flt_cpn.arvlAirports.aipName}"></span>
+        </div>
+
+        <div class="time-details">
+          <div class="time-block">
+            <div class="time-local">
+              🛫 Вылет: <span th:text="${#dates.format(cpn.flt_cpn.deptr_dttm_lcl, 'dd.MM.yyyy HH:mm')}"></span>
+            </div>
+            <div class="time-utc" th:text="'UTC ' + ${#dates.format(cpn.flt_cpn.deptr_dttm_utc, 'HH:mm')}"></div>
+          </div>
+          <div class="time-block">
+            <div class="time-local">
+              🛬 Прилёт: <span th:text="${#dates.format(cpn.flt_cpn.arvl_dttm_lcl, 'dd.MM.yyyy HH:mm')}"></span>
+            </div>
+            <div class="time-utc" th:text="'UTC ' + ${#dates.format(cpn.flt_cpn.arvl_dttm_utc, 'HH:mm')}"></div>
+          </div>
+        </div>
+
+        <div class="fare-info">
+          Класс:
+          <strong th:text="${cpn.cost_cpn.cls == 'C' ? 'Бизнес' : (cpn.cost_cpn.cls == 'Y' ? 'Эконом' : (cpn.cost_cpn.cls == 'W' ? 'Комфорт' : cpn.cost_cpn.cls))}"></strong>
+          &nbsp;|&nbsp;
+          Стоимость: <strong th:text="${cpn.cost_cpn.cost} + ' ₽'"></strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-card">
+      <div class="total-label">Общая стоимость бронирования</div>
+      <div class="total-amount">
+        <th:block th:if="${totalCost != null}">
+          <span th:text="${totalCost}"></span> <small>₽</small>
+        </th:block>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <a th:href="@{/personal_account}" class="btn-primary-custom">Посмотреть бронь в ЛК</a>
+      <a href="/" class="btn-outline-custom">На главную</a>
+    </div>
+  </div>
+
+  <div th:unless="${tkt != null}" class="passenger-card text-center">
+    <p class="text-muted">Ошибка: данные бронирования не найдены.</p>
+    <a href="/" class="btn-primary-custom">Вернуться на главную</a>
+  </div>
 </div>
-<a th:href="@{/}">На главную</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

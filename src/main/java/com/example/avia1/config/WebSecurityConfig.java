@@ -31,6 +31,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/wishlist/**"))
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/", "/register", "/login").permitAll() // Разрешить доступ к страницам регистрации и входа
                                 .requestMatchers("/delete/**").hasRole("ADMIN") // Доступ к удалению книги только для ADMIN
@@ -74,4 +75,3 @@ public class WebSecurityConfig {
     }
 
 }
-

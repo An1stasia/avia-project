@@ -2,229 +2,158 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Система работы с перевозкой грузов | Редактирование поста</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Редактирование пользователя</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    footer {
-      background: linear-gradient(135deg, #696969 0%, rgba(74, 144, 226, 0) 100%); /* Градиентный фон */
-      padding: 40px 0; /* Увеличено верхнее и нижнее поле */
-      color: #fff; /* Белый цвет текста */
-      text-align: center; /* Выравнивание текста по центру */
-    }
 
-    footer .container {
-      max-width: 800px; /* Ширина контейнера */
-      margin: 0 auto; /* Центрирование контейнера */
-      padding: 0 20px; /* Добавлено боковое отсоединение */
-    }
-
-    footer h3 {
-      margin-bottom: 15px; /* Пространство между заголовками и контентом */
-      font-size: 1.3em; /* Увеличен размер шрифта */
-      text-transform: uppercase; /* Заглавные буквы */
-    }
-
-    footer ul {
-      list-style: none;
+    body {
+      background-color: #d2dff9;
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      margin: 0;
       padding: 0;
     }
-
-    footer li {
-      margin-bottom: 10px;
+    .admin-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
     }
 
-    footer a {
-      color: #ffffff; /* Белый цвет для ссылок */
+    .form-card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      padding: 1.8rem;
+    }
+    .form-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1e466e;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.3px;
+    }
+
+    .form-table {
+      width: 100%;
+    }
+    .form-table td {
+      padding: 8px 0;
+      border: none;
+    }
+    .form-table td:first-child {
+      font-weight: 500;
+      color: #2c3e66;
+      width: 35%;
+    }
+    .form-table input,
+    .form-table select {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      font-size: 1rem;
+      background: #fff;
+      transition: 0.2s;
+    }
+    .form-table input:focus,
+    .form-table select:focus {
+      border-color: #0d6efd;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(13,110,253,0.2);
+    }
+    .form-table input[readonly] {
+      background-color: #f8fafc;
+      cursor: not-allowed;
+    }
+    .btn-save {
+      background: #0d6efd;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: 0.2s;
+      width: 100%;
+      margin-top: 12px;
+    }
+    .btn-save:hover {
+      background: #0b5ed7;
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+    .simple-nav {
+      margin-bottom: 20px;
+    }
+    .simple-nav a {
+      background: white;
+      padding: 6px 18px;
+      border-radius: 40px;
+      color: #0d6efd;
       text-decoration: none;
-      transition: color 0.3s; /* Плавный переход цвета */
-      font-weight: 500; /* Полужирный шрифт для ссылок */
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: inline-block;
     }
-
-    footer a:hover {
-      color: #ffeb3b; /* Цвет при наведении */
-      text-decoration: underline;
+    .simple-nav a:hover {
+      background: #e9f0ff;
     }
-
-    footer .social-icons {
-      margin: 20px 0; /* Отступ для иконок социальных сетей */
-    }
-
-    footer .social-icons a {
-      margin: 0 10px; /* Отступ между иконками */
-      font-size: 1.5em; /* Размер иконок */
-      color: #fff; /* Цвет иконок */
-      transition: color 0.3s; /* Плавный переход цвета для иконок */
-    }
-
-    footer .social-icons a:hover {
-      color: #ffeb3b; /* Цвет иконок при наведении */
-    }
-
-    footer .copyright {
-      margin-top: 30px;
-      font-size: 0.9em;
-      color: #f2f2f2; /* Более светлый цвет для копирайта */
-    }
-
-    /* Responsive adjustments (optional): */
-    @media (max-width: 768px) {
-      footer .row {
-        flex-direction: column; /* Выровнять колонки по вертикали на меньших экранах */
+    @media (max-width: 600px) {
+      .admin-container {
+        padding: 16px;
       }
-
-      footer .col-md-4 {
-        margin-bottom: 20px; /* Интервал между колонками */
+      .form-card {
+        padding: 1.2rem;
+      }
+      .form-title {
+        font-size: 1.5rem;
       }
     }
   </style>
 </head>
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Главная</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-              aria-expanded="false" aria-label="Переключатель навигации">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse" id="navbarSupportedContent" style>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">Автоблог</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/blog">Главная страница</a></li>
-              <li><a class="dropdown-item" href="/blog_admin" sec:authorize="hasRole('ADMIN')">Административная панель</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/google-charts">Гистограмма</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li>
-            <a class="nav-link" th:text="${username}"></a>
-          </li>
-          <li sec:authorize="isAnonymous()">
-            <a th:hx-get="@{'/login'}" hx-target="#dialog3" class="btn nav-link custom-button">Войти</a>
-            <!-- Модальное окно -->
-          </li>
-          <li class="nav-item" th:if="${#authentication != null and #authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">  <a href="/logout" class="btn btn-danger nav-link custom-button">Выйти</a>
-          </li>
-          <li>
-            <a class="nav-link" href="/basa" sec:authorize="hasRole('ADMIN')">Управление базой</a>
-          </li>
-          <div class="modal fade" id="modallog" tabindex="-1" aria-labelledby="exampleModalLabellog" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabellog">Вход</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="dialog3">
-                  <!-- Форма будет загружена сюда -->
-                </div>
-                <!--                            <div class="modal-footer">-->
-                <!--                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>-->
-                <!--                            </div>-->
-              </div>
-            </div>
-          </div>
-        </ul>
-      </div>
-      <div id="google_translate_element"></div>
-      <script type="text/javascript">
-        function googleTranslateElementInit() {
-          new google.translate.TranslateElement({pageLanguage: 'ru'}, 'google_translate_element');
-        }
-      </script>
-      <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    </div>
-    </div>
-  </nav>
-</header>
 <body>
-<div class="bg-image"
-     style="background-image: url('https://storage.kun.uz/source/10/6d3zzVANjbQYm5uhb1JydSDfNkHGEYH7.jpg'); height: 100vh; width: 100%; background-size: cover; background-position: center; overflow:
-auto">
-  <blockquote class="blockquote text-center" style="color: aliceblue"><h1>Редактировать пост</h1></blockquote>
-  <div class="row">
-    <div class="col-md-8 offset-md-4">
-      <form action="#" th:action="@{/basa/save}" th:object="${user}" method="post">
-        <table>
-          <tr>
-            <td class="text-white">ID:</td>
-            <td><input type="text" th:field="*{user_id}" readonly="readonly"></td>
-          </tr>
-          <tr>
-            <td class="text-white">Имя:</td>
-            <td><input type="text" th:field="*{username}" readonly="readonly"></td>
-          </tr>
-          <tr>
-            <td class="text-white">Пароль:</td>
-            <td><input type="text" th:field="*{password}" readonly="readonly"></td>
-          </tr>
-          <tr>
-            <td class="text-white">Роль:</td>
-            <td>
-              <select th:field="*{role}" required>
-                <option value="ADMIN">ADMIN</option>
-                <option value="USER">USER</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button type="submit" class="btn btn-primary" data-tooggle="button" aria-pressed="false" autocomplete="off">Сохранить</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
+
+<div class="admin-container">
+
+  <div class="simple-nav">
+    <a href="/basa">← Назад к списку</a>
   </div>
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h3>О проекте</h3>
-          <p>Это информационно-справочная система грузов. Разработананная студентами...</p>
-          <p>ООО "ТГК"</p>
-        </div>
-        <div class="col-md-4">
-          <h3>Полезные ссылки</h3>
-          <ul>
-            <li><a href="/blog">Новости</a></li>
-            <li><a href="/google-charts">Статистика</a></li>
 
-          </ul>
-        </div>
-        <div class="col-md-4">
+  <div class="form-card">
+    <h1 class="form-title">Редактировать пользователя</h1>
 
-          <h3>Свяжитесь с нами</h3>
-          <a href="https://web.telegram.org/k/#@gruzzIni" target="_blank">
-            <i class="fab fa-telegram" style="font-size: 32px;"></i>
-          </a>
-          <a href="https://chat.whatsapp.com/BAlSyr5xkAvDIVVgdemFWe" target="_blank">
-            <i class="fab fa-whatsapp" style="font-size: 32px;"></i>
-          </a>
-          <a href="https://vk.com/club228694784" target="_blank">
-            <i class="fab fa-vk" style="font-size: 32px;"></i>
-          </a>
-        </div>
-      </div>
-      <div class="copyright">
-        <p>&copy; 2024 ООО "ТГК". Все права защищены.</p>
-      </div>
-    </div>
-  </footer>
+    <form action="#" th:action="@{/basa/save}" th:object="${user}" method="post">
+      <table class="form-table">
+        <tr>
+          <td>ID:</td>
+          <td><input type="text" th:field="*{user_id}" readonly></td>
+        </tr>
+        <tr>
+          <td>Имя пользователя:</td>
+          <td><input type="text" th:field="*{username}" readonly></td>
+        </tr>
+        <tr>
+          <td>Пароль:</td>
+          <td><input type="text" th:field="*{password}" readonly></td>
+        </tr>
+        <tr>
+          <td>Роль:</td>
+          <td>
+            <select th:field="*{role}" required>
+              <option value="ADMIN">ADMIN</option>
+              <option value="USER">USER</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button type="submit" class="btn-save">Сохранить изменения</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-<script src="/dialog1.js"></script>
-<script src="/dialog2.js"></script>
-<script src="/dialog3.js"></script>
 </html>

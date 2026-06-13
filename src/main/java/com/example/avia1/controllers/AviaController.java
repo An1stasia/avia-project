@@ -9,6 +9,7 @@ import com.example.avia1.services.FltService;
 import com.example.avia1.services.AipService;
 import com.example.avia1.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,30 +34,8 @@ public class AviaController {
     @Autowired
     private FltService fltService;
 
-//    @RequestMapping("/")
-//    public String index(Model model, @Param("keyword") String keyword) {
-//        List<Flt> listFlt = fltService.listAll(keyword);
-//        model.addAttribute("listFlt", listFlt);
-//        model.addAttribute("keyword", keyword);
-//        return "index";
-//    }
-
     @Autowired
     private AipService aipService;
-
-//    @GetMapping("/")
-//    public String showSearchForm(Model model) {
-//        List<Aip> airports = aipService.listAll();  // убрали keyword
-//        model.addAttribute("airports", airports);
-//        return "index"; // ваш шаблон index.html
-//    }
-
-//    @GetMapping("/")
-//    public String showSearchForm(Model model, @RequestParam(required = false) String keyword) {
-//        List<Aip> airports = aipService.listAll(keyword);
-//        model.addAttribute("airports", airports);
-//        return "index";
-//    }
 
     @Autowired
     private UserService serviceu;
@@ -91,7 +70,6 @@ public class AviaController {
         model.addAttribute("listUser", listUser);
         model.addAttribute("keyword", keyword);
         model.addAttribute("sort", sort);
-//        listUser.sort(Comparator.comparing(Post::getDate_publ).reversed());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication != null ? authentication.getName() : "Гость"; // или любое другое значение по умолчанию
@@ -112,14 +90,14 @@ public class AviaController {
 
     @RequestMapping("/basa/edit/{user_id}") // Страница редактирования данных
     public ModelAndView showEditPostForm(@PathVariable(name = "user_id") Long user_id, Model model) {
-        ModelAndView mav = new ModelAndView("edit_basa"); // Добавляем шаблон в модель
-        User user = serviceu.get(user_id); // Передаем ID, по которому будем редактировать
+        ModelAndView mav = new ModelAndView("edit_basa");
+        User user = serviceu.get(user_id);
         mav.addObject("user", user);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication != null ? authentication.getName() : "Гость"; // или любое другое значение по умолчанию
-        model.addAttribute("username", username); // Добавляем имя пользователя в модель
-        return mav; // Возвращаем полностью модель
+        String username = authentication != null ? authentication.getName() : "Гость";
+        model.addAttribute("username", username);
+        return mav;
     }
 
     // Обработка поиска
@@ -137,13 +115,13 @@ public class AviaController {
 //        if (returnDate != null) {
 //            searchParams.put("returnDate", returnDate.toString());
 //        } else {
-//            searchParams.put("returnDate", "");  // или просто не класть, но тогда проверка на isEmpty должна работать
+//            searchParams.put("returnDate", "");
 //        }
 
         searchParams.put("returnDate", returnDate != null ? returnDate.toString() : "");
 
         session.setAttribute("searchParams", searchParams);
-        // Простейшая проверка
+
         if (departureCity.equals(arrivalCity)) {
             model.addAttribute("error", "Города отправления и прибытия не могут совпадать");
             model.addAttribute("cities", aipService.getCities(null));
@@ -232,7 +210,7 @@ public class AviaController {
 
         model.addAttribute("flight", flight);
         model.addAttribute("cost", cost);
-//        model.addAttribute("passenger", passenger);          // может быть null
+//        model.addAttribute("passenger", passenger);
 //        model.addAttribute("passengerComplete", passengerComplete);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -248,7 +226,7 @@ public class AviaController {
                 && pax.getPassport() != null && !pax.getPassport().isBlank();
     }
 
-//    @PostMapping("/coupon/create")  // теперь создание через POST
+//    @PostMapping("/coupon/create")
 //    public String createCoupon(HttpSession session, Principal principal) {
 //        Integer fltId = (Integer) session.getAttribute("selectedFltId");
 //        Integer costId = (Integer) session.getAttribute("selectedCostId");
@@ -261,7 +239,7 @@ public class AviaController {
 //        Pax passenger = currentUser.getPassenger();
 //
 //        if (passenger == null) {
-//            return "redirect:/personal_account";  // пассажир не заполнен
+//            return "redirect:/personal_account";
 //        }
 //
 //        Flt flight = fltService.get(fltId).orElseThrow();
@@ -274,7 +252,6 @@ public class AviaController {
 //
 //        cpnRepository.save(cpn);
 //
-//        // Здесь можно сохранить ID купона в сессии, чтобы показать на странице успеха
 //        session.setAttribute("lastCouponId", cpn.getCpn_id());
 //
 //        return "redirect:/coupon/success";
@@ -295,7 +272,7 @@ public class AviaController {
         Cpn coupon = new Cpn();
         coupon.setFlt_cpn(flight);
         coupon.setCost_cpn(cost);
-        // bkg пока null
+
         cpnRepository.save(coupon);
 
         // Определяем, первый это купон или второй
@@ -308,7 +285,6 @@ public class AviaController {
             session.setAttribute("secondCpnId", coupon.getCpn_id());
         }
 
-        // Сохраняем ID последнего созданного купона для страницы успеха
         session.setAttribute("lastCouponId", coupon.getCpn_id());
         return "redirect:/coupon/success";
     }
@@ -333,9 +309,6 @@ public class AviaController {
         model.addAttribute("cpn", lastCpn);
 
         // Определяем, показывать ли кнопку "Продолжить обратный поиск"
-        // Эта кнопка нужна, если:
-        // - в сессии есть returnDate (поиск был туда-обратно)
-        // - создан только первый купон (secondCpnId ещё нет)
         Map<String, String> params = (Map<String, String>) session.getAttribute("searchParams");
         boolean hasReturn = params != null && !params.get("returnDate").isEmpty();
         boolean showBackward = hasReturn && secondCpnId == null && firstCpnId != null;
@@ -343,11 +316,11 @@ public class AviaController {
 
         model.addAttribute("hasReturn", hasReturn);
 
-        // Новая переменная: true, если создан только первый купон (можно завершить бронь без обратного билета)
+        //true, если создан только первый купон
         boolean onlyOneWay = firstCpnId != null && secondCpnId == null;
         model.addAttribute("onlyOneWay", onlyOneWay);
 
-        // Кнопка "Завершить бронирование" нужна всегда, если есть хотя бы один купон
+        // Кнопка "Завершить бронирование"
         model.addAttribute("canFinalize", firstCpnId != null);
 
         List<Cpn> allCoupons = new ArrayList<>();
@@ -371,19 +344,11 @@ public class AviaController {
         String arr = params.get("departureCity");
         String returnDate = params.get("returnDate");
 
-        // Формируем редирект на /search с переставленными городами и датой "обратно"
         return "redirect:/search?departureCity=" + dep +
                 "&arrivalCity=" + arr +
                 "&departureDate=" + returnDate +
-                "&returnDate=" + returnDate; // можно передать любую, всё равно используется только departureDate
+                "&returnDate=" + returnDate;
     }
-
-//    @RequestMapping("/new_pax") //Добавление клиента
-//    public String showNewClientForm(Model model) {
-//        Pax pax = new Pax(); //Создаем экземпляр класса Pax, внутри которого "лежит" наша модель базы данных
-//        model.addAttribute("pax", pax); //Добавляем в модель данные
-//        return "new_pax";
-//    }
 
     @PostMapping("/tkt/finalize")
     public String finalizeTkt(HttpSession session, Principal principal) {
@@ -391,7 +356,6 @@ public class AviaController {
         Integer secondCpnId = (Integer) session.getAttribute("secondCpnId");
 
         if (firstCpnId == null) {
-            // Без купонов нельзя
             return "redirect:/";
         }
 
@@ -399,16 +363,13 @@ public class AviaController {
         Pax passenger = currentUser.getPassenger();
 
         if (passenger == null) {
-            // Пассажир не заполнен – перенаправляем в личный кабинет
             return "redirect:/personal_account";
         }
 
-        // Создаём бронирование
         Tkt tkt = new Tkt();
         tkt.setPax_tkt(passenger);
         tktRepository.save(tkt);
 
-        // Привязываем купоны к бронированию
         Cpn firstCpn = cpnRepository.findById(firstCpnId).orElseThrow();
         firstCpn.setTkt_cpn(tkt);
         cpnRepository.save(firstCpn);
@@ -419,10 +380,8 @@ public class AviaController {
             cpnRepository.save(secondCpn);
         }
 
-        // Сохраняем ID бронирования в сессии для страницы успеха
         session.setAttribute("finalTktId", tkt.getTkt_id());
 
-        // Очищаем промежуточные данные
         session.removeAttribute("firstCpnId");
         session.removeAttribute("secondCpnId");
         session.removeAttribute("lastCouponId");
@@ -433,10 +392,28 @@ public class AviaController {
     @GetMapping("/tkt/success")
     public String TktSuccess(Model model, HttpSession session) {
         Integer tktId = (Integer) session.getAttribute("finalTktId");
+//        if (tktId != null) {
+//            Tkt tkt = tktRepository.findById(tktId).orElse(null);
+//            model.addAttribute("tkt", tkt);
+//        }
+
+        Double totalCost = 0.0;
+
         if (tktId != null) {
             Tkt tkt = tktRepository.findById(tktId).orElse(null);
+            if (tkt != null && tkt.getCpns() != null) {
+                for (Cpn cpn : tkt.getCpns()) {
+                    String costStr = cpn.getCost_cpn().getCost();
+                    try {
+                        totalCost += Double.parseDouble(costStr);
+                    } catch (NumberFormatException e) {
+                    }
+                }
+            }
             model.addAttribute("tkt", tkt);
         }
+
+        model.addAttribute("totalCost", totalCost);
 
         return "tkt_success";
     }
@@ -453,7 +430,6 @@ public class AviaController {
         session.removeAttribute("secondCpnId");
         session.removeAttribute("lastCouponId");
 
-        return "redirect:/";   // или на страницу результатов поиска
+        return "redirect:/";
     }
 }
-

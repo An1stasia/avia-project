@@ -37,6 +37,3 @@ public class Tkt {
         this.pax_tkt = pax_tkt;
     }
 }
-
-
-

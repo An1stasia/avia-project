@@ -57,4 +57,12 @@ public class Cpn {
     @JoinColumn(name = "tkt_id")   // столбец в таблице Cpn
     private Tkt tkt_cpn;
 
+    public Tkt getTkt_cpn() {
+        return tkt_cpn;
+    }
+
+    public void setTkt_cpn(Tkt tkt_cpn) {
+        this.tkt_cpn = tkt_cpn;
+    }
+
 }

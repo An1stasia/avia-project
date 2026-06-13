@@ -1,42 +1,37 @@
-<form action="#" th:action="@{/passenger/save}" th:object="${pax}" method="post">
+<form action="#" th:action="@{/passenger/save}" th:object="${pax}" method="post" class="passenger-form">
   <input type="hidden" name="pax_id" th:value="${pax_id}" />
-  <table>
-    <!--    <tr>-->
-    <!--      <td class="text">ID:</td>-->
-    <!--      <td><input type="text" th:field="*{pax_id}" readonly="readonly"></td>-->
-    <!--    </tr>-->
-    <tr>
-      <td class="text">Фамилия:</td>
-      <td><input type="text" th:field="*{last_nm}"></td>
-    </tr>
-    <tr>
-      <td class="text">Имя:</td>
-      <td><input type="text" th:field="*{fst_nm}"></td>
-    </tr>
-    <tr>
-      <td class="text">Отчество:</td>
-      <td><input type="text" th:field="*{mid_nm}"></td>
-    </tr>
-    <tr>
-      <td class="text">Дата рождения:</td>
-      <td><input type="date" placeholder="YYYY-MM-DD" th:field="*{birth_date}"></td>
-    </tr>
-    <tr>
-      <td class="text">Телефон:</td>
-      <td><input type="tel" th:field="*{phone}" placeholder="+7 (___) ___-__-__"></td>
-    </tr>
-    <tr>
-      <td class="text">Почта:</td>
-      <td><input type="email" placeholder="" th:field="*{email}"></td>
-    </tr>
-    <tr>
-      <td class="text">Паспорт:</td>
-      <td><input type="text" th:field="*{passport}" placeholder="1234567890"></td>
-    </tr>
-  </table>
-  <p></p>
+
+  <div class="form-row">
+    <label class="form-label">Фамилия:</label>
+    <input type="text" th:field="*{last_nm}" class="form-control" required>
+  </div>
+  <div class="form-row">
+    <label class="form-label">Имя:</label>
+    <input type="text" th:field="*{fst_nm}" class="form-control" required>
+  </div>
+  <div class="form-row">
+    <label class="form-label">Отчество:</label>
+    <input type="text" th:field="*{mid_nm}" class="form-control">
+  </div>
+  <div class="form-row">
+    <label class="form-label">Дата рождения:</label>
+    <input type="date" th:field="*{birth_date}" class="form-control" required>
+  </div>
+  <div class="form-row">
+    <label class="form-label">Телефон:</label>
+    <input type="tel" th:field="*{phone}" class="form-control" placeholder="+7 (___) ___-__-__">
+  </div>
+  <div class="form-row">
+    <label class="form-label">Почта:</label>
+    <input type="email" th:field="*{email}" class="form-control" required>
+  </div>
+  <div class="form-row">
+    <label class="form-label">Паспорт:</label>
+    <input type="text" th:field="*{passport}" class="form-control" placeholder="1234567890" required>
+  </div>
+
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-    <button type="submit" class="btn btn-primary" data-tooggle="button" aria-pressed="false" autocomplete="off">Сохранить</button>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
   </div>
 </form>

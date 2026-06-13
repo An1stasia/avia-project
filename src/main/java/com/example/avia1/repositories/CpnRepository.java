@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CpnRepository extends JpaRepository<Cpn, Integer> { }
+public interface CpnRepository extends JpaRepository<Cpn, Integer> {
+
+}

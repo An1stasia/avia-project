@@ -1,0 +1,84 @@
+/* Стили для формы пассажира (без таблицы) */
+.passenger-form {
+    width: 100%;
+}
+
+.passenger-form .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;        /* выравнивание по центру по вертикали */
+    margin-bottom: 1rem;
+    gap: 12px;
+}
+
+.passenger-form .form-label {
+    width: 110px;
+    font-weight: 500;
+    color: #2c3e66;
+    flex-shrink: 0;
+}
+
+.passenger-form .form-control {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 40px;
+    font-size: 1rem;
+    transition: 0.2s;
+    background: #fff;
+}
+
+.passenger-form .form-control:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.2);
+}
+
+/* Кнопки */
+.passenger-form .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 1.5rem;
+    border-top: 1px solid #eef2ff;
+    padding-top: 1.2rem;
+}
+
+.passenger-form .btn-secondary,
+.passenger-form .btn-primary {
+    border: none;
+    padding: 8px 24px;
+    border-radius: 40px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.passenger-form .btn-secondary {
+    background: #e2e8f0;
+    color: #1f2a44;
+}
+.passenger-form .btn-secondary:hover {
+    background: #cbd5e1;
+    transform: scale(1.02);
+}
+.passenger-form .btn-primary {
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+}
+.passenger-form .btn-primary:hover {
+    background: #0b5ed7;
+    transform: scale(1.02);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 550px) {
+    .passenger-form .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .passenger-form .form-label {
+        width: auto;
+        margin-bottom: 4px;
+    }
+}

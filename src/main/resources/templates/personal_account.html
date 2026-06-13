@@ -5,65 +5,207 @@
     <title>Бронирование авиабилетов | Личный кабинет</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://enterprise.api-maps.yandex.ru/2.1/?apikey=99e4eb44-5cc5-4b00-aae5-e5c79688fa66&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=99e4eb44-5cc5-4b00-aae5-e5c79688fa66" type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/css/personal_account.css}" />
+    <link rel="stylesheet" th:href="@{/css/pax_edit_form.css}" />
 </head>
+
 <body>
-<h1>Личный кабинет</h1>
-<p>Имя пользователя: <span th:text="${user.username}"></span></p>
 
-<!-- Блок для пользователей, у которых есть пассажир -->
-<div th:if="${user.passenger != null}">
-    <h3>Данные пассажира</h3>
-    <p>Имя: <span th:text="${user.passenger.fst_nm}"></span></p>
-    <p>Фамилия: <span th:text="${user.passenger.last_nm}"></span></p>
-    <p>Отчество: <span th:text="${user.passenger.mid_nm}"></span></p>
-    <p>Дата рождения: <span th:text="${#dates.format(user.passenger.birth_date, 'dd.MM.yyyy')}"></span></p>
-    <p>Паспорт: <span th:text="${user.passenger.passport}"></span></p>
-    <p>Телефон: <span th:text="${user.passenger.phone}"></span></p>
-    <p>Почта: <span th:text="${user.passenger.email}"></span></p>
-    <!-- Другие поля пассажира -->
-    <a th:hx-get="@{'/passenger/edit/' + ${user.passenger.pax_id}}" hx-target="#dialog_pax2" class="btn nav-link">Редактировать данные</a>
-    <div class="modal fade" id="modalpax2" tabindex="-1" aria-labelledby="ModalPax_2" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalPax_2">Данные пассажира</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="dialog_pax2">
-                    <!-- Форма будет загружена сюда -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">✈ Поиск авиабилетов</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Переключатель навигации">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li>
+                        <a class="nav-link" th:href="@{/personal_account}" th:text="${username}" sec:authorize="hasRole('USER')"></a>
+                        <span class="nav-link" th:text="${username}" sec:authorize="isAuthenticated() AND !hasRole('USER')"></span>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <a th:hx-get="@{'/login'}" hx-target="#dialog3" class="btn nav-link custom-button">Войти</a>
+                    </li>
+                    <li class="nav-item" th:if="${#authentication != null and #authentication.isAuthenticated() and #authentication.name != 'anonymousUser'}">
+                        <a href="/logout" class="btn btn-danger nav-link custom-button">Выйти</a>
+                    </li>
+                    <li>
+                        <a class="nav-link custom-button" href="/basa" sec:authorize="hasRole('ADMIN')">Управление базой</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<div class="dashboard-container">
+    <div class="page-header">
+        <h1 class="handwritten-title">Личный кабинет</h1>
+        <p class="greeting-message">Приветствуем, <span th:text="${user.username}"></span>!</p>
+    </div>
+
+    <div class="two-columns">
+        <div class="bookings-column">
+            <div class="bookings-header">
+                <h2>Ближайшие перелеты</h2>
+            </div>
+            <div th:if="${not #lists.isEmpty(cpn)}" class="bookings-grid">
+                <div th:each="cpn : ${cpn}" class="booking-card">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Дата и время вылета</small></p>
+                            <p class="fw-bold">
+                                <span th:text="${#dates.format(cpn.flt_cpn.deptr_dttm_lcl, 'dd.MM.yyyy HH:mm')}"></span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Рейс</small></p>
+                            <p class="fw-bold"><span th:text="${cpn.flt_cpn.flt_nbr}">?</span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Откуда</small></p>
+                            <p class="fw-bold"><span th:text="${cpn.flt_cpn.deptrAirports.city}"></span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Куда</small></p>
+                            <p class="fw-bold"><span th:text="${cpn.flt_cpn.arvlAirports.city}"></span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Номер билета</small></p>
+                            <p class="fw-bold"><span th:text="${cpn.tkt_cpn.tkt_id}"></span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-1 text-muted"><small>Класс обслуживания</small></p>
+                            <p class="fw-bold">
+                                <span th:text="${cpn.cost_cpn.cls == 'C' ? 'бизнес' : (cpn.cost_cpn.cls == 'Y' ? 'эконом' : (cpn.cost_cpn.cls == 'W' ? 'комфорт' : cpn.cost_cpn.cls))}"></span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div th:unless="${not #lists.isEmpty(cpn)}" class="no-booking-message">
+                <p class="text-muted mt-3 mb-0">У вас пока нет билетов.</p>
+            </div>
+        </div>
+
+        <div class="contact-column">
+            <div th:if="${user.passenger != null}" class="contact-card">
+                <h3 class="card-title text-center mb-4" style="color: #0d6efd;">Ваши данные</h3>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Имя</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.fst_nm}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Фамилия</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.last_nm}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Отчество</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.mid_nm}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Дата рождения</small></p>
+                        <p class="fw-bold"><span th:text="${#dates.format(user.passenger.birth_date, 'dd.MM.yyyy')}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Паспорт</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.passport}"></span></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1 text-muted"><small>Телефон</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.phone}"></span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="mb-1 text-muted"><small>Почта</small></p>
+                        <p class="fw-bold"><span th:text="${user.passenger.email}"></span></p>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a th:hx-get="@{'/passenger/edit/' + ${user.passenger.pax_id}}" hx-target="#dialog_pax2"
+                       class="btn btn-lg px-5" style="background-color: #a8d8ea; color: #fff; border-radius: 30px; font-weight: 500;">
+                        Редактировать данные
+                    </a>
+                </div>
+
+                <div class="modal fade" id="modalpax2" tabindex="-1" aria-labelledby="ModalPax_2" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ModalPax_2">Данные пассажира</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="dialog_pax2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${user.passenger != null}" class="contact-card text-center" style="padding: 2rem;">
+                <p>Хотите зарегистрироваться как пассажир?</p>
+                <a th:hx-get="@{/passenger/new}" hx-target="#dialog_pax1" class="btn btn-primary">Заполните форму</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- карта -->
+    <div class="dream-section">
+        <div class="dream-title">Мечтаю слетать...</div>
+        <div class="search-wrapper">
+            <div class="search-panel">
+                <input type="text" id="addressInput" placeholder="Введите город или место, например, Париж" />
+                <button id="searchButton">Найти</button>
+            </div>
+        </div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- вишлист -->
+    <div class="wishlist-section">
+        <div class="wishlist-title">⭐ Мой wishlist</div>
+        <ul id="cityList">
+            <li th:each="item : ${wishlistItems}">
+                <input type="checkbox" class="visited-checkbox"
+                       th:data-id="${item.id}" th:checked="${item.visited}">
+                <span th:text="${item.city}"></span>
+                <button class="delete-city-btn" th:data-id="${item.id}"
+                        title="Удалить город">✕</button>
+            </li>
+        </ul>
+    </div>
+
+    <a th:href="@{/}" class="main-link">← На главную</a>
+</div>
+
+<div class="modal fade" id="modalpax" tabindex="-1" aria-labelledby="ModalPax1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalPax1">Данные пассажира</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="dialog_pax1"></div>
         </div>
     </div>
 </div>
 
-<!-- Блок для пользователей без пассажира -->
-<div th:unless="${user.passenger != null}">
-    <p>Хотите зарегистрироваться как пассажир?
-        <a th:hx-get="@{/passenger/new}" hx-target="#dialog_pax1" class="btn nav-link">Заполните форму</a>
-    </p>
-    <div class="modal fade" id="modalpax" tabindex="-1" aria-labelledby="ModalPax1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalPax1">Данные пассажира</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="dialog_pax1">
-                    <!-- Форма будет загружена сюда -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<br/>
-<a th:href="@{/}">На главную</a>
 <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
 <script src="/dialog_pax1.js"></script>
 <script src="/dialog_pax2.js"></script>
+<script th:inline="javascript">
+    var savedCities = /*[[${wishlistItems}]]*/ [];
+</script>
+<script src="/map.js"></script>
 </body>
 </html>

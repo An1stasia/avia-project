@@ -19,15 +19,14 @@ public class UserService {
         return repo.findAll();// Встроенный в коллекцию метод
     }
 
-    //Этот метод сохраняет студента в базе данных, используя репозиторий
     public void save(User user) {
         repo.save(user);
     }
-    //Этот метод получает студента по его идентификатору.
+
     public User get(Long user_id) {
         return repo.findById(user_id).get();
     }
-    //Этот метод удаляет студента из базы данных по его идентификатору
+
     public void delete(Long user_id) {
         repo.deleteById(user_id);
     }
@@ -36,4 +35,3 @@ public class UserService {
         return repo.findByUsername(username);
     }
 }
-

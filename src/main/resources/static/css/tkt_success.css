@@ -1,0 +1,225 @@
+body {
+    background-color: #d2dff9;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 40px 24px;
+    background-color: #d2dff9;
+    min-height: 100vh;
+}
+
+/* Шапка страницы */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}
+.success-badge {
+    background: #19875420;
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 60px;
+    color: #0a5c3e;
+    font-weight: 500;
+}
+
+/* Карточка пассажира */
+.passenger-card {
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.08);
+    padding: 1.8rem;
+    margin-bottom: 28px;
+}
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1e466e;
+    margin-bottom: 1rem;
+    border-left: 5px solid #0d6efd;
+    padding-left: 16px;
+}
+.passenger-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+}
+.passenger-item {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    flex: 1 1 180px;
+}
+.passenger-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #5f7d9c;
+    letter-spacing: 0.5px;
+}
+.passenger-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2a44;
+    margin-top: 4px;
+}
+.booking-id {
+    font-family: monospace;
+    background: #eef4ff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+}
+
+/* Карточка купона (рейса) */
+.coupon-card-item {
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    margin-bottom: 24px;
+    transition: transform 0.2s;
+}
+.coupon-card-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.1);
+}
+.route-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid #eef2ff;
+    padding-bottom: 0.8rem;
+}
+.flight-number-badge {
+    background: #0d6efd10;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-weight: 700;
+    color: #0d6efd;
+}
+.city-pair {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e466e;
+}
+.airport-sub {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+.time-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+.time-block {
+    flex: 1;
+}
+.time-local {
+    font-weight: 600;
+    font-size: 1rem;
+}
+.time-utc {
+    font-size: 0.7rem;
+    color: #6c757d;
+}
+.fare-info {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 0.6rem 1rem;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+/* Итоговая сумма (прозрачный блок с рамкой) */
+.total-card {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(4px);
+    border: 2px solid #cbdff2;
+    border-radius: 40px;
+    padding: 1.2rem 1.8rem;
+    text-align: center;
+    margin: 24px 0 32px;
+}
+.total-label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2c4b7a;
+}
+.total-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0d6efd;
+}
+.total-amount small {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+/* Кнопки */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.btn-primary-custom {
+    background: #0d6efd;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-primary-custom:hover {
+    background: #0b5ed7;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+.btn-outline-custom {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: #1f2a44;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-outline-custom:hover {
+    background: #e9ecef;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px;
+    }
+    .city-pair {
+        font-size: 1rem;
+    }
+    .total-amount {
+        font-size: 1.5rem;
+    }
+}

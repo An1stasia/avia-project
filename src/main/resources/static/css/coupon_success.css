@@ -1,0 +1,222 @@
+body {
+    background-color: #d2dff9;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 40px 24px;
+    background-color: #d2dff9;
+    min-height: 100vh;
+}
+
+/* Шапка страницы */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.page-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}
+.sub-header {
+    color: #2c3e66;
+    font-size: 1.1rem;
+}
+
+/* Карточка купона */
+.coupon-card {
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 28px;
+}
+
+/* Центральный блок с городами и аэропортами */
+.route-center {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px dashed #e2e8f0;
+}
+.city-pair {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e466e;
+    margin-bottom: 0.5rem;
+}
+.city-pair span {
+    margin: 0 12px;
+}
+.long-dash {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #5b7da0;
+}
+.airport-pair {
+    font-size: 1rem;
+    color: #6c757d;
+    letter-spacing: 0.3px;
+}
+.airport-pair span {
+    margin: 0 8px;
+}
+
+/* Сетка деталей */
+.details-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.8rem;
+    margin-top: 0.5rem;
+}
+.detail-item {
+    flex: 1;
+    min-width: 180px;
+    background: #f8fafc;
+    border-radius: 24px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+}
+.detail-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #5f7d9c;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+.detail-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2a44;
+}
+.utc-small {
+    font-size: 0.7rem;
+    color: #6c757d;
+    font-weight: normal;
+    margin-left: 6px;
+}
+.fare-highlight {
+    background: #eef4ff;
+    border: 1px solid #cddff7;
+}
+.fare-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0d6efd;
+}
+
+/* Кнопки */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.btn-primary-custom {
+    background: #0d6efd;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    transition: 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.btn-primary-custom:hover {
+    background: #0b5ed7;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+.btn-success-custom {
+    background: #198754;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: white;
+}
+.btn-success-custom:hover {
+    background: #157347;
+    transform: scale(1.02);
+}
+.btn-outline-custom {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: #1f2a44;
+}
+.btn-outline-custom:hover {
+    background: #e9ecef;
+}
+.btn-danger-custom {
+    background: #dc3545;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: white;
+}
+.btn-secondary-custom {
+    background: #6c757d;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 60px;
+    font-weight: 600;
+    color: white;
+    transition: 0.2s;
+}
+.btn-secondary-custom:hover {
+    background: #5a6268;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+/* Модальное окно в стиле карточки */
+.modal-content {
+    border-radius: 32px;
+    border: none;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+}
+.modal-header {
+    border-bottom: 1px solid #eef2ff;
+    background: #f9fbfe;
+    border-radius: 32px 32px 0 0;
+    padding: 1.2rem 1.5rem;
+}
+.modal-title {
+    font-weight: 700;
+    color: #1e466e;
+}
+.modal-footer {
+    border-top: 1px solid #eef2ff;
+    background: #f9fbfe;
+    border-radius: 0 0 32px 32px;
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px;
+    }
+    .city-pair {
+        font-size: 1.5rem;
+    }
+    .long-dash {
+        font-size: 1.3rem;
+    }
+    .detail-item {
+        min-width: 100%;
+    }
+}

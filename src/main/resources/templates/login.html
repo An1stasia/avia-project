@@ -1,18 +1,15 @@
 <div class="login-block">
-<form action="#" th:action="@{/login}" method="post">
-  <h5>Для входа введите имя пользователя и пароль</h5>
-  <table>
-    <tr>
-      <td><label for="username">Имя пользователя:</label></td>
-      <td><input type="text" id="username" name="username" required/></td>
-      <br/>
-    </tr>
-    <tr>
-      <td><label for="password">Пароль:</label></td>
-      <td><input type="password" id="password" name="password" required/></td>  <br/>
-    </tr></table>
-  <button type="submit" class="btn btn-dark">Войти</button>
-  <a href="/register">Нет аккаунта? Зарегистрироваться</a></body>
-  <!--    <button type="submit" href="/logout">Выйти</button>-->
-</form>
+  <form action="#" th:action="@{/login}" method="post">
+    <h5>Вход в личный кабинет</h5>
+    <div>
+      <label for="username">Имя пользователя</label>
+      <input type="text" id="username" name="username" required placeholder="Введите логин">
+    </div>
+    <div>
+      <label for="password">Пароль</label>
+      <input type="password" id="password" name="password" required placeholder="••••••••">
+    </div>
+    <button type="submit">Войти</button>
+    <a href="/register">Нет аккаунта? Зарегистрироваться</a>
+  </form>
 </div>
